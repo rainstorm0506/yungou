@@ -1,0 +1,274 @@
+{wc:templates "index","header"}
+<link rel="stylesheet" type="text/css" href="{G_TEMPLATES_STYLE}/css/Home.css"/>
+
+<style type="text/css">
+.demo{ width:740px; height:333px; position:relative; overflow:hidden; padding:0px;}
+.num{ position:absolute;right:20px; top:300px; z-index:10;}
+.num a{background:#fff; color:#ff6700; border:1px solid #ccc; width:16px; height:16px; display:inline-block; text-align:center; line-height:16px; margin:0 3px; cursor:pointer;}
+.num a.cur{ background:#ff6700;color:#fff;}
+.demo ul{ position:relative; z-index:5;}
+.demo ul li{ position:absolute; display:none;}
+</style>
+<!--banner and Recommend 开始-->
+<div class="banner_recommend">
+	<div class="banner-box">
+		<div id="posterTopNav" class="yg-flow"><a href="{WEB_PATH}/single/newbie" target="_blank"><img src="{G_UPLOAD_PATH}/banner/20130524181745143.gif" alt="新手指南" width="742" height="50"></a></div>
+		{wc:getlist sql="select * from `@#_slide` where 1" return="slides"}
+		<div class="demo">					
+			<ul>		
+            	{wc:loop $slides $slide}
+                {wc:if $ln == 1}
+            	<li style="display:list-item;"><a href="{wc:$slide['link']}" target="_blank"><img src="{G_UPLOAD_PATH}/{wc:$slide['img']}"></a></li>
+             	{wc:else}
+            <li style="display:none;"><a href="{wc:$slide['link']}" target="_blank"><img src="{G_UPLOAD_PATH}/{wc:$slide['img']}"></a></li>
+                {wc:if:end}
+                {wc:loop:end}
+            </ul>
+			 <div class="num">
+			{wc:php:start}					
+				for($i=1;$i<=count($slides);$i++){
+				echo '<a class="">'.$i.'</a>' ;
+				}
+			{wc:php:end}
+			</div>
+			{wc:getlist:end}
+		</div>
+	</div>
+	<script type="text/javascript">
+$(function(){
+	var sw = 0;
+	$(".demo .num a").mouseover(function(){
+		sw = $(".num a").index(this);
+		myShow(sw);
+	});
+	function myShow(i){
+		$(".demo .num a").eq(i).addClass("cur").siblings("a").removeClass("cur");
+		$(".demo ul li").eq(i).stop(true,true).fadeIn(600).siblings("li").fadeOut(600);
+	}
+	//滑入停止动画，滑出开始动画
+	$(".demo").hover(function(){
+		if(myTime){
+		   clearInterval(myTime);
+		}
+	},function(){
+		myTime = setInterval(function(){
+		  myShow(sw)
+		  sw++;
+		  if(sw=={wc:fun:count($slides)}){sw=0;}
+		} , 3000);
+	});
+	//自动开始
+	var myTime = setInterval(function(){
+	   myShow(sw)
+	   sw++;
+	   if(sw=={wc:fun:count($slides)}){sw=0;}
+	} , 3000);
+})
+</script>
+    <!-- 首页右边推荐商品 start-->
+    {wc:if $new_shop}
+	<div class="recommend">
+    
+		<ul class="Pro">			
+			<li>
+				<div class="pic">
+				<a href="{WEB_PATH}/goods/{wc:$new_shop['id']}" target="_blank" title="{wc:$new_shop['title']}">
+				<i class="goods_tj"></i>
+				<img alt="{wc:$new_shop['title']}" src="{G_UPLOAD_PATH}/{wc:$new_shop['thumb']}">
+				</a>
+				<p name="buyCount" style="display:none;"></p>
+				</div>
+				<p class="name">
+					<strong><a href="{WEB_PATH}/goods/{wc:$new_shop['id']}" target="_blank" title="{wc:$new_shop['title']} ">
+                    {wc:$new_shop['title']}</strong></a>
+				</p>
+				<p class="money">价值：<span class="rmb">{wc:$new_shop['money']}</span></p>
+				<div class="Progress-bar" style="">
+					<p title="已完成{wc:fun:percent($new_shop['canyurenshu'],$new_shop['zongrenshu'])}"><span style="width:{wc:fun:width($new_shop['canyurenshu'],$new_shop['zongrenshu'],205)}px;"></span></p>
+					<ul class="Pro-bar-li">
+						<li class="P-bar01"><em>{wc:$new_shop['canyurenshu']}</em>已参与人次</li>
+						<li class="P-bar02"><em>{wc:$new_shop['zongrenshu']}</em>总需人次</li>
+						<li class="P-bar03"><em>{wc:$new_shop['zongrenshu']-$new_shop['canyurenshu']}</em>剩余人次</li>
+					</ul>
+				</div>
+				<p>
+					<a href="{WEB_PATH}/goods/{wc:$new_shop['id']}" target="_blank" class="go_buy"></a>
+				</p>
+			</li>				
+		</ul>
+	</div>
+   {wc:if:end}
+    <!-- 首页右边推荐商品 end-->
+</div>
+<!--banner and Recommend 结束-->
+<!--product 开始-->
+<div class="goods_hot">
+	<div class="goods_left">
+    
+		<div class="new_lottery">        	
+			<h4><span>最新揭晓</span></h4>
+			<ul id="ulNewAwary" style="padding-bottom:5px;">
+            <style>
+				.new_li .pic img{ margin-left:15px;}		
+			</style>
+			{wc:loop $shopqishu $qishu}
+            {wc:php:start}
+            	$qishu['q_user'] = unserialize($qishu['q_user']);
+            {wc:php:end}
+			<li class="new_li">
+			<a href="{WEB_PATH}/dataserver/{wc:$qishu['id']}" target="_blank" class="pic"><img src="{G_UPLOAD_PATH}/{wc:$qishu['thumb']}" /></a>
+			<a href="{WEB_PATH}/dataserver/{wc:$qishu['id']}" target="_blank" class="name">{wc:$qishu['title']}</a>
+		  	<span class="winner">获得者：<strong><a rel="nofollow" class="blue" href="{WEB_PATH}/uname/{wc:fun:idjia($qishu['q_uid'])}" target="_blank">{wc:fun:get_user_name($qishu['q_user'])}</a></strong></span>
+			</li>
+			{wc:loop:end}
+			</ul>
+            <!------>
+            	<script type="text/javascript" src="{G_TEMPLATES_JS}/GLotteryFun.js"></script>
+                <script type="text/javascript">
+					$(document).ready(function(){gg_show_time_init("ulNewAwary",'{WEB_PATH}',0);});					
+			    </script>  
+            <!------>
+		</div>                
+		<div class="hot" style="">
+			<h3><span>最热人气商品</span><a rel="nofollow" href="{WEB_PATH}/goods_list">更多&gt;&gt;</a></h3>
+			<ul id="hostGoodsItems" class="hot-list">											
+				{wc:loop $shoplistrenqi $renqi}
+				<li class="list-block">
+					<div class="pic"><a href="{WEB_PATH}/goods/{wc:$renqi['id']}" target="_blank" title="{wc:$renqi['title']}">					
+					{wc:if isset($renqi['t_max_qishu'])}							
+							<i class="goods_rq"></i>							
+					{wc:if:end}					
+					{wc:if isset($renqi['t_new_goods'])}						
+							<i class="goods_xp"></i>					
+					{wc:if:end}
+					<img src="{G_UPLOAD_PATH}/{wc:$renqi['thumb']}" alt="{wc:$renqi['title']}"></a></div>
+					<p class="name"><a href="{WEB_PATH}/goods/{wc:$renqi['id']}" target="_blank" title="{wc:$renqi['title']}">{wc:$renqi['title']}</a></p>
+					<p class="money">价值：<span class="rmb">{wc:$renqi['money']}</span></p>
+					<div class="Progress-bar" style="">
+						<p title="已完成{wc:fun:percent($renqi['canyurenshu'],$renqi['zongrenshu'])}"><span style="width:{wc:fun:width($renqi['canyurenshu'],$renqi['zongrenshu'],221)}px;"></span></p>
+						<ul class="Pro-bar-li">
+							<li class="P-bar01"><em>{wc:$renqi['canyurenshu']}</em>已参与人次</li>
+							<li class="P-bar02"><em>{wc:$renqi['zongrenshu']}</em>总需人次</li>
+							<li class="P-bar03"><em>{wc:$renqi['zongrenshu']-$renqi['canyurenshu']}</em>剩余人次</li>
+						</ul>
+					</div>
+					<div class="shop_buttom"><a href="{WEB_PATH}/goods/{wc:$renqi['id']}" target="_blank" class="shop_but" title="立即云购"></a></div>
+				</li>
+				{wc:loop:end}
+			</ul>
+		</div>
+	</div>
+	<div class="goods_right">
+		<div class="news">
+			<h3>云购动态</h3>
+			<ul>
+				<!--获取圈子最新动态5条-->
+				{wc:m=group.group mod=get_group_tiezi(5)}
+				{wc:loop $datas $row}				
+				<li><a href="{WEB_PATH}/group/nei/{wc:$row['id']}" target="_blank">{wc:$row['title']}</a></li>								
+				{wc:loop:end}
+				<!--/获取圈子最新动态5条-->
+			</ul>
+		</div>
+		
+		<div class="wait_lottery" id="divLottery">
+            {wc:m=go.ad mod=get_ad(1)}
+		</div>
+	
+		{wc:getlist:end}
+        <!--滚动插件-->
+        <script type="text/javascript" src="{G_TEMPLATES_JS}/JQuery.js"></script>
+        <script type="text/javascript" src="{G_TEMPLATES_JS}/scroll.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.buyList li:even').addClass('lieven');
+            })
+            $(function(){
+                $("div.buyList").myScroll({
+                    speed:40, //数值越大，速度越慢
+                    rowHeight:85 //li的高度
+                });
+            });
+        </script>
+		<div class="share">
+			<h3>TA们正在云购</h3>
+			<div class="buyList">		
+                <ul id="buyList" style="margin-top: 0px;">
+					{wc:loop $go_record $gorecord}
+					<li>
+						<a href="{WEB_PATH}/goods/{wc:$gorecord['shopid']}" class="pic" target="_blank">
+                        <img src="{G_UPLOAD_PATH}/{wc:fun:shopimg($gorecord['shopid'])}"></a>
+						<span class="who"><p style="display: inline;"><a class="blue" href="{WEB_PATH}/uname/{wc:fun:idjia($gorecord['uid'])}">{wc:fun:get_user_name($gorecord)}</a></p>刚刚云购了</span>
+						<span><a href="{WEB_PATH}/goods/{wc:$gorecord['shopid']}" class="name" target="_blank">{wc:$gorecord['shopname']}</a></span>
+					</li>
+					{wc:loop:end}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!--product 结束-->
+<div class="clear"></div>
+<!--商品 开始-->
+<div class="get_ready">
+	<h3><span>即将揭晓</span><a rel="nofollow" href="{WEB_PATH}/goods_list">更多&gt;&gt;</a></h3>
+	<ul id="readyLotteryItems" class="hot-list">
+		{wc:loop $shoplist $shop}
+		<li class="list-block">
+			<div class="pic"><a href="{WEB_PATH}/goods/{wc:$shop['id']}" target="_blank" title="{wc:$shop['title']}"><img src="{G_UPLOAD_PATH}/{wc:$shop['thumb']}" alt="{wc:$shop['title']}"></a></div>
+			<p class="name"><a href="{WEB_PATH}/goods/{wc:$shop['id']}" target="_blank" title="{wc:$shop['title']}">{wc:$shop['title']}</a></p>
+			<p class="money">价值：<span class="rmb">{wc:$shop['money']}</span></p>
+			<div class="Progress-bar" style="">
+				<p title="已完成{wc:fun:percent($shop['canyurenshu'],$shop['zongrenshu'])}"><span style="width:{wc:fun:width($shop['canyurenshu'],$shop['zongrenshu'],221)}px;"></span></p>
+				<ul class="Pro-bar-li">
+					<li class="P-bar01"><em>{wc:$shop['canyurenshu']}</em>已参与人次</li>
+					<li class="P-bar02"><em>{wc:$shop['zongrenshu']}</em>总需人次</li>
+					<li class="P-bar03"><em>{wc:$shop['zongrenshu']-$shop['canyurenshu']}</em>剩余人次</li>
+				</ul>
+			</div>
+			<div class="shop_buttom"><a href="{WEB_PATH}/goods/{wc:$shop['id']}" target="_blank" class="shop_but" title="立即云购"></a></div>
+		</li>
+		{wc:loop:end}			
+	</ul>
+</div>
+
+<!--商品 结束-->
+<!--晒单分享-->
+<div class="lottery_show">
+    <div class="share_show">
+        <h3><span>晒单分享</span><a href="{WEB_PATH}/go/shaidan/" target="_blank">更多&gt;&gt;</a></h3>
+        <div class="show">
+			{wc:loop $shaidan $sd}
+			<dl>
+				<dt><a rel="nofollow" href="{WEB_PATH}/go/shaidan/detail/{wc:$sd['sd_id']}" target="_blank"><img alt="" src="{G_UPLOAD_PATH}/{wc:$sd['sd_thumbs']}"></a></dt>
+				<dd class="bg">
+					<ul>
+						<li class="name"><span><a href="{WEB_PATH}/go/shaidan/detail/{wc:$sd['sd_id']}" target="_blank">{wc:$sd['sd_title']}</a></span> 获得者：<a rel="nofollow" class="blue" href="{WEB_PATH}/uname/{wc:$sd['sd_userid']}" target="_blank">{wc:fun:get_user_name($sd['sd_userid'])}</a></li>
+						<li class="content">{wc:fun:_strcut(del_html($sd['sd_content']),100)}</li>
+					</ul>
+				</dd>
+			</dl>
+			{wc:loop:end}	
+			<div class="show_list">	
+				{wc:loop $shaidan_two $sd}
+				<ul>
+					<li class="pic"><a rel="nofollow" href="{WEB_PATH}/go/shaidan/detail/{wc:$sd['sd_id']}"><img alt="" src="{G_UPLOAD_PATH}/{wc:$sd['sd_thumbs']}"></a></li>
+					<li class="show_tit"><a href="{WEB_PATH}/go/shaidan/detail/{wc:$sd['sd_id']}" target="_blank">{wc:$sd['sd_title']}</a></li>
+					<li>获得者：<a rel="nofollow" class="blue" href="{WEB_PATH}/uname/{wc:$sd['sd_userid']}" target="_blank">{wc:fun:get_user_name($sd['sd_userid'])}</a></li>
+					<li>揭晓时间：{wc:fun:date("Y-m-d",$sd['sd_time'])}</li>
+				</ul>	
+				{wc:loop:end}			
+				<div class="arrow_left"></div>
+				<div class="arrow_right"></div>
+			</div>               
+        </div>
+    </div>
+</div>
+<!--晒单分享end-->
+
+<!--新闻列表-->
+<style>
+.lottery_news{ width:100%; border:1px solid #000;}
+</style>
+<!--/新闻列表-->
+{wc:templates "index","footer"}

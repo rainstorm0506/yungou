@@ -1,0 +1,119 @@
+{wc:templates "index","header"}
+<div class="main-content clearfix">
+<!--a-->
+<script type="text/javascript">
+var editurl=Array();
+editurl['editurl']="{G_PLUGIN_PATH}/ueditor/";
+editurl['imageupurl']="{WEB_PATH}/{G_ADMIN_DIR}/ueditor/upimage/";
+editurl['imageManager']="{WEB_PATH}/{G_ADMIN_DIR}/ueditor/imagemanager";
+</script>
+<script type="text/javascript" charset="utf-8" src="{G_PLUGIN_PATH}/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="{G_PLUGIN_PATH}/ueditor/ueditor.all.min.js"></script>
+<script src="{G_PLUGIN_PATH}/uploadify/api-uploadify.js" type="text/javascript"></script> 
+{wc:templates "member","left"}
+<style>
+.R-content .sd_lilie{display:block; width:780px; margin:10px 0 10px 0; float:left;}
+.R-content .sd_lilie .sd_span{font-size:14px; float:left; display:block;width:70px;}
+#sd_text{border:1px solid #ccc; width:450px; height:30px; padding:0 0 0 5px;}
+#sd_textarea{width:500px; height:150px; border:1px solid #ccc; resize:none; padding:5px;}
+#sd_file{ float:left;}
+#fileQueue{display: block; margin: 30px 0 0 0;}
+#fileQueue div{ margin:5px 0 0 0;}
+#sd_submit{padding:5px 10px; float:right; border-right:1px solid #666; border-bottom:1px solid #666;}
+.button{ margin:5px 0 0 0; float:left;padding:3px 7px; float:left; border-right:1px solid #666; border-bottom:1px solid #666;}
+.fileWarp{ width:710px;  float:left;}
+.fileWarp ul li{ float:left;  margin-right:10px;}
+.fileWarp ul li a{ display:block; height:25px; width:100px; text-align:center; background-color:#eee; color:#f60;line-height:25px;}
+#uppicarr img{ border:1px solid #f8f8f8; padding:1px;width:80px; height:80px}
+#uppicarr li{ float:left; position:relative;}
+#uppicarr li i{ position:absolute;top:0px; right:5px; font-size:20px; color:#f00; cursor:pointer}
+
+</style>
+<div class="R-content">
+	<div class="subMenux" style="height:50px;line-height:50px;">
+		<span>添加晒单</span>
+		<a style="float:right;" href="{WEB_PATH}/member/home/singlelist" class="blue">返回晒单</a>
+	</div>
+	<form  action="#" method="post">	
+		<div class="sd_lilie">
+			<span class="sd_span">标题：</span>
+			<input id="sd_text" type="text" name="title" />
+		</div>
+		<div class="sd_lilie">
+			<span class="sd_span">内容：</span>
+			<!--textarea id="sd_textarea" name="content" ></textarea-->
+			<div style="float: left;">
+				<script name="content" id="myeditor" type="text/plain"></script>
+            	<style>
+				.content_attr {
+					border: 1px solid #CCC;
+					padding: 5px 8px;
+					background: #FFC;
+					margin-top: 6px;
+					width:915px;
+				}
+				</style>
+				<script type="text/javascript">
+				//实例化编辑器
+				UEDITOR_CONFIG.toolbars = [["source","fontfamily","fontsize","bold","italic","underline","backcolor","link","unlink","justifyleft","justifycenter","justifyright","justifyjustify","insertunorderedlist","insertorderedlist",]];
+				UEDITOR_CONFIG.initialFrameWidth = 600;
+				UEDITOR_CONFIG.initialFrameHeight = 400;
+				var ue = UE.getEditor('myeditor');
+				ue.addListener('ready',function(){
+					this.focus()
+				});
+				</script>
+			</div>
+		</div>
+        
+        
+		<div class="sd_lilie">
+			<span class="sd_span">晒图：</span>
+			<div style="float:left; width:580px; border:1px solid #ccc; padding:10px 10px;">
+            <ul id="uppicarr" class="upload-img-list">
+            </ul>               
+			<a onClick="uploadshaidanimg()" style="display:block; clear:both"> <input type="button" class="button" value="开始上传" /></a>
+			</div>
+		</div>
+        
+		<div class="sd_lilie">
+        	<span class="sd_span">　　　</span>
+            <div style="float:left; width:580px; border:1px solid #fff; ">
+			<input id="sd_submit" name="submit" type="submit" style="float:none" value="确认添加" />
+            </div>
+		</div>
+	</form>
+</div>
+</div>
+
+<script>
+
+var imgnum = 5;
+function shaidanimg(files){
+	if(imgnum==0){
+		alert("最多上传5张");	
+		return;
+	}
+	var imgs = "";
+	for(var o in files){
+		imgnum--;
+		imgs += "<li><img style='width:80px; height:80px' onclick='delshaidanimg(this)' src='{wc:G_UPLOAD_PATH}/"+files[o]+"'/><i>×</i>";
+		imgs += "<input type='hidden' name='fileurl_tmp[]' value='"+files[o]+"'>";
+		imgs += "</li>";
+		$("#uppicarr").append(imgs);
+	}
+}
+
+function uploadshaidanimg(){	
+	if(imgnum==0){
+		alert("最多上传5张");	
+		return;
+	}
+	GetUploadify('{WEB_PATH}','uploadify','缩略图上传','image','photo',imgnum,500000,'uppicarr','shaidanimg')
+}
+
+function delshaidanimg(T){
+	$(T).parent().remove();	imgnum++;
+}
+</script>
+{wc:templates "index","footer"}
