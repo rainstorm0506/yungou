@@ -29,7 +29,6 @@
         lxfEndtime_setTimeout = window.setTimeout("lxfEndtime()", 1000);
                 var endtime = {wc:$item['xsjx_time']};
                 var youtime = endtime - this.this_time;	   	   //还有多久(毫秒值)
-
         var seconds = youtime / 1000;
         var minutes = Math.floor(seconds / 60);
         var hours = Math.floor(minutes / 60);
@@ -38,8 +37,13 @@
         var CHour = hours % 24;
         var CMinute = minutes % 60;
         var CSecond = Math.floor(seconds % 60);//"%"是取余运算，可以理解为60进一后取余数，然后只要余数
-        $("#divAutoRTime").html("<b>限时揭晓</b><p>剩余时间：<em>" + days + "</em>天<em>" + CHour + "</em>时<em>" + CMinute + "</em>分<em>" + CSecond + "</em>秒</p>");
-//        this.xsjx_time_shop.html("<b>限时揭晓</b><p>剩余时间：<em>" + days + "</em>天<em>" + CHour + "</em>时<em>" + CMinute + "</em>分<em>" + CSecond + "</em>秒</p>");
+//        if(youtime>=0){
+//        $("#divAutoRTime").html("<b>限时揭晓</b><p>剩余时间：<em>" + days + "</em>天<em>" + CHour + "</em>时<em>" + CMinute + "</em>分<em>" + CSecond + "</em>秒</p>");
+//        }else{
+//            $("#divAutoRTime").html("<b>已经揭晓</b>");
+//        }
+        
+        this.xsjx_time_shop.html("<b>限时揭晓</b><p>剩余时间：<em>" + days + "</em>天<em>" + CHour + "</em>时<em>" + CMinute + "</em>分<em>" + CSecond + "</em>秒</p>");
         delete youtime, seconds, minutes, hours, days, CDay, CHour, CMinute, CSecond;
         if (endtime <= this.this_time) {
             lxfEndtime_setTimeout && clearTimeout(lxfEndtime_setTimeout);
@@ -48,7 +52,7 @@
             $.ajaxSetup({
                 async: false
             });
-            $.post("{WEB_PATH}/go/autolottery/autolottery_ret_install", {"shopid": {wc: $item['id']}}, function(data) {
+            $.post("{WEB_PATH}/go/autolottery/autolottery_ret_install", {"shopid": {wc:$item['id']}}, function(data) {
                 if (data == '-1') {
                     xsjx_time_shop.html("<b>限时揭晓</b><p>没有这个商品!</p>");
                     return;
@@ -83,7 +87,7 @@
         }
     }
     $(function() {
-        var temp1 = $("#timeall").attr("endtime");
+        var temp1 = $("#timeall");
         var temp2 = {wc:fun:time()};
         lxfEndtime(temp1,temp2); 
     });
