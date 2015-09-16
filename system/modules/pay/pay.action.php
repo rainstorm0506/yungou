@@ -87,9 +87,9 @@ class pay extends admin {
 		}
 		
 		$arr=array(
-			"id" =>array("name"=>"支付宝商户号:","val"=>"12322313"),
-			"key" =>array("name"=>"支付宝密钥:","val"=>"8934e7d15453e97507ef794cf7b0519d1"),
-			"user" =>array("name"=>"支付宝账号:","val"=>"xx@qq.ccc"),
+			"id" =>array("name"=>"支付宝商户号:","val"=>"2088002155956432"),
+			"key" =>array("name"=>"支付宝密钥:","val"=>"a0csaesgzhpmiiguif2j6elkyhlvf4t9"),
+			"user" =>array("name"=>"支付宝账号:","val"=>"guoguanzhao520@163.com"),
 		);
 		
 	
