@@ -81,11 +81,16 @@
 				}							
 			  }			  
 			 $(function(){lxfEndtime($("#timeall"),{wc:fun:time()}000);});
-			</script>
+            </script>
             {wc:if:end}			
 			<!-- 限时揭晓end -->
 			
 			<p class="Pro_Detsingle" style="font-size:14px;">云购价格：<b style="color:#999;">{wc:$item['yunjiage']}</b></p>
+			<p style="font-size:14px;">选择产品分区：
+                            {wc:loop $area  $items}
+                            <button class='area_test' onclick="test(this)" flag='13'>{wc:$items['area_name']}</button>
+                            {wc:loop:end}
+                        </p>
 			<div id="divNumber" class="Pro_number">
 				我要云购 
 				<a href="javascript:;" class="num_del num_ban" id="shopsub">-</a>

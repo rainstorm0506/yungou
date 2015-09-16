@@ -189,16 +189,16 @@
 <!-- 首页右边推荐商品 end-->
 </div>
 <!--商品 开始-->
-<div class="get_ready">
+<!--<div class="get_ready">
     <h3><span style="color:#000">最新上架</span><a rel="nofollow" href="{WEB_PATH}/goods_list">更多新品，点击查看&gt;&gt;</a></h3>
     <ul id="readyLotteryItems" class="hot-list">
         {wc:getlist sql="select * from `@#_shoplist` where `q_end_time` is  null and `q_showtime` = 'N' and `shenyurenshu`!='0'  and `sid`=`id`  LIMIT 0,10" return="shoplistnew"}	
         {wc:loop $shoplistnew $shop}
         <li class="list-block">
             <div class="pic"><a href="{WEB_PATH}/goods/{wc:$shop['id']}" target="_blank" title="{wc:$shop['title']}">
-                    <!--补丁3.1.5_b.0.1-->                    	 
+                    补丁3.1.5_b.0.1                    	 
                     {wc:php:start}$i_googd_bj = null;{wc:php:end}        
-                    <!--补丁3.1.5_b.0.1-->        
+                    补丁3.1.5_b.0.1        
                     {wc:if ($this_time - $shop['time']) < 86400}						
                     {wc:php:start}$i_googd_bj = '<i class="goods_xp"></i>';{wc:php:end}					
                     {wc:if:end}			
@@ -218,76 +218,11 @@
         </li>
         {wc:loop:end}			
     </ul>
-</div>
+</div>-->
 
 <!--商品 结束-->
 <!--banner and Recommend 结束-->
-<!--product 开始-->
-<!--<div class="goods_hot">
-    <div class="goods_left">
 
-
-        <div class="hot" style="">
-            <h3><span>最热人气商品</span><a rel="nofollow" href="{WEB_PATH}/goods_list/0_0_2">更多商品，点击查看&gt;&gt;</a></h3>
-            <ul id="hostGoodsItems" class="hot-list">
-                {wc:php:start}
-                $shoplistrenqib=$this->db->GetList("select * from `@#_shoplist` where `renqi`='1' and `q_uid` is null ORDER BY id DESC LIMIT 8");
-                {wc:php:end}
-                {wc:loop $shoplistrenqib $renqi}
-                 每一个产品
-                <li class="list-block">
-                    <div class="pic"><a href="{WEB_PATH}/goods/{wc:$renqi['id']}" target="_blank" title="{wc:$renqi['title']}">					
-                            补丁3.1.5_b.0.1                    	 
-                            {wc:php:start}$i_googd_bj = null;{wc:php:end}        
-                            {wc:if $renqi['renqi']=='1' && !isset($i_googd_bj)}						
-                            {wc:php:start}$i_googd_bj = '<i class="goods_rq"></i>';{wc:php:end}				
-                            {wc:if:end}					
-                            {wc:$i_googd_bj}    
-                            <img src="{G_UPLOAD_PATH}/{wc:$renqi['thumb']}" alt="{wc:$renqi['title']}"></a></div>
-                    <p class="name"><a href="{WEB_PATH}/goods/{wc:$renqi['id']}" target="_blank" title="{wc:$renqi['title']}">{wc:$renqi['title']}</a></p>
-                    <p class="money">价值：<span class="rmb">{wc:$renqi['money']}</span></p>
-                    <div class="Progress-bar" style="">
-                        <p title="已完成{wc:fun:percent($renqi['canyurenshu'],$renqi['zongrenshu'])}"><span style="width:{wc:fun:width($renqi['canyurenshu'],$renqi['zongrenshu'],221)}px;"></span></p>
-                        <ul class="Pro-bar-li">
-                            <li class="P-bar01"><em>{wc:$renqi['canyurenshu']}</em>已参与人次</li>
-                            <li class="P-bar02"><em>{wc:$renqi['zongrenshu']}</em>总需人次</li>
-                            <li class="P-bar03"><em>{wc:$renqi['zongrenshu']-$renqi['canyurenshu']}</em>剩余人次</li>
-                        </ul>
-                    </div>
-                    <div class="shop_buttom"><a href="{WEB_PATH}/goods/{wc:$renqi['id']}" target="_blank" class="shop_but" title="立即云购"></a></div>
-                </li>
-                {wc:loop:end}
-            </ul>
-        </div>
-    </div>
-    <div class="goods_right">
-
-        {wc:getlist:end}
-        <div class="share">
-            <h3>最新揭晓记录</h3>
-            <div class="buyList">		
-                <ul id="buyList" style="margin-top: 0px;">
-                    {wc:php:start}
-                    $shopgxb=$this->db->GetList("select qishu,id,sid,thumb,title,q_uid,q_user,q_user_code,zongrenshu  from `@#_shoplist` where `q_end_time` is not null and `q_showtime` = 'N' ORDER BY `q_end_time` DESC LIMIT 8");
-                    {wc:php:end}
-                    {wc:loop $shopgxb $shopgx}
-                    {wc:php:start}
-                    $shopgx['q_user'] = unserialize($shopgx['q_user']);
-                    {wc:php:end}
-                    <li>
-                        <a href="{WEB_PATH}/goods/{wc:$shopgx['id']}" class="pic" target="_blank">
-                            <img src="{G_UPLOAD_PATH}/{wc:$shopgx['thumb']}" style="width:58px"/></a>
-                        <span class="who"><p style="display: inline;"><a class="blue" href="{WEB_PATH}/uname/{wc:fun:idjia($shopgx['q_uid'])}">{wc:fun:get_user_name($shopgx['q_user'])}</a></p>刚刚获得了</span>
-                        <span><a href="{WEB_PATH}/goods/{wc:$shopgx['id']}" class="name" target="_blank">{wc:$shopgx['title']}</a></span>
-
-                    </li>
-                    {wc:loop:end}
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>-->
-<!--product 结束-->
 <div class="clear"></div>
 
 <!--奢侈品专区--开始-->
@@ -295,7 +230,7 @@
     <div class="goods_left">
 
         <div class="hot" style="">
-            <h3><span>奢侈品区</span><a rel="nofollow" href="{WEB_PATH}/goods_list/5_0_1">更多奢侈品，点击查看&gt;&gt;</a></h3>
+            <h3><span>分区云购&gt;&gt;&gt;奢侈品区</span><a rel="nofollow" href="{WEB_PATH}/goods_list/5_0_1">更多分区云购&gt;&gt;&gt;奢侈品，点击查看&gt;&gt;</a></h3>
             <ul id="hostGoodsItems" class="hot-list">			
                 {wc:loop $new_goods $shop}
                 <li class="list-block">
@@ -346,7 +281,7 @@
     <div class="goods_left">
 
         <div class="hot" style="">
-            <h3><span>精品电器</span><a rel="nofollow" href="{WEB_PATH}/goods_list/13_0_1">更多精品电器，点击查看&gt;&gt;</a></h3>
+            <h3><span>分区云购&gt;&gt;&gt;精品电器</span><a rel="nofollow" href="{WEB_PATH}/goods_list/13_0_1">更多分区云购&gt;&gt;精品电器，点击查看&gt;&gt;</a></h3>
             <ul id="hostGoodsItems" class="hot-list">			
                 {wc:loop $electrical_goods $shop}
                 <li class="list-block">
@@ -397,7 +332,7 @@
     <div class="goods_left">
 
         <div class="hot" style="">
-            <h3><span>汽车配件</span><a rel="nofollow" href="{WEB_PATH}/goods_list/6_0_1">更多即将揭晓，点击查看&gt;&gt;</a></h3>
+            <h3><span>分区云购&gt;&gt;&gt;汽车配件</span><a rel="nofollow" href="{WEB_PATH}/goods_list/6_0_1">更多分区云购&gt;&gt;汽车配件，点击查看&gt;&gt;</a></h3>
             <ul id="hostGoodsItems" class="hot-list">			
                 {wc:loop $car_goods $shop}
                 <li class="list-block">
@@ -448,7 +383,7 @@
     <div class="goods_left">
 
         <div class="hot" style="">
-            <h3><span>服饰百货</span><a rel="nofollow" href="{WEB_PATH}/goods_list/12_0_1">更多服饰百货，点击查看&gt;&gt;</a></h3>
+            <h3><span>分区云购&gt;&gt;&gt;服饰百货</span><a rel="nofollow" href="{WEB_PATH}/goods_list/12_0_1">更多分区云购&gt;&gt;服饰百货，点击查看&gt;&gt;</a></h3>
             <ul id="hostGoodsItems" class="hot-list">			
                 {wc:loop $cloth_goods $shop}
                 <li class="list-block">
@@ -499,7 +434,7 @@
     <div class="goods_left">
 
         <div class="hot" style="">
-            <h3><span>母婴美妆</span><a rel="nofollow" href="{WEB_PATH}/goods_list/14_0_1">更多母婴美妆，点击查看&gt;&gt;</a></h3>
+            <h3><span>分区云购&gt;&gt;&gt;母婴美妆</span><a rel="nofollow" href="{WEB_PATH}/goods_list/14_0_1">更多分区云购&gt;&gt;母婴美妆，点击查看&gt;&gt;</a></h3>
             <ul id="hostGoodsItems" class="hot-list">			
                 {wc:loop $mother_goods $shop}
                 <li class="list-block">
@@ -550,7 +485,7 @@
     <div class="goods_left">
 
         <div class="hot" style="">
-            <h3><span>生活用品</span><a rel="nofollow" href="{WEB_PATH}/goods_list/17_0_1">更多生活用品，点击查看&gt;&gt;</a></h3>
+            <h3><span>分区云购&gt;&gt;&gt;生活用品</span><a rel="nofollow" href="{WEB_PATH}/goods_list/17_0_1">更多分区云购&gt;&gt;生活用品，点击查看&gt;&gt;</a></h3>
             <ul id="hostGoodsItems" class="hot-list">			
                 {wc:loop $life_goods $shop}
                 <li class="list-block">

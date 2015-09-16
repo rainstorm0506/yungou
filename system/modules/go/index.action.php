@@ -326,7 +326,7 @@ class index extends base {
             }
             $loopqishu.='</ul>';
             $time = time();
-
+            
             include templates("index","item");
     }
 
@@ -335,6 +335,8 @@ class index extends base {
     {
         $mysql_model = System::load_sys_class('model');
         $itemid = abs(intval(safe_replace($this->segment(4))));  
+        //查询出云购分区下的分区
+        $area = $this->db->GetList("select * from `@#_goods_area`");
 
         $item = $mysql_model->GetOne("select * from `@#_shoplist` where `id`='" . $itemid . "' LIMIT 1");
         if (!$item)
@@ -400,8 +402,6 @@ class index extends base {
         }
         $loopqishu.='</ul>';
 
-//        echo "<pre>";
-//        die(var_dump($item));
         include templates("index", "goodsArea");        
     }
     //往期商品查看

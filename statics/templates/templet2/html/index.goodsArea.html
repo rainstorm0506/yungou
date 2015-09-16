@@ -276,10 +276,19 @@ $(function(){
 			$("#divProductNav").removeClass("nav-fixed");
 		}
 	});
-})
+});
+
 var shopinfo={'shopid':{wc:$item['id']},'money':{wc:$item['yunjiage']},'shenyu':{wc:$syrs}};
-console.debug(shopinfo);
-	
+function test(item)
+{
+    //先清除button上面有的flag
+    $(".area_test").each(function(index,val){
+        $(this).attr("flag","");
+    });
+    //再加上flag标签
+    shopinfo['area'] = $(item).html();
+    $(item).attr("flag",$(item).html());
+}
 $(function(){
 	function baifenshua(aa,n){
 	n = n || 2;
@@ -370,9 +379,10 @@ $(".Det_Cart").click(function(){
 		Cartcookie(false);
 	});		
 });
-	$(".Det_Shopbut").click(function(){	
-		Cartcookie(true);
-	});	
+//点击"立即云购"
+$(".Det_Shopbut").click(function(){
+        Cartcookie(true);
+});
 });
 
 
@@ -399,6 +409,8 @@ function Cartcookie(cook){
 	info[shopid]['num']=number;
 	info[shopid]['shenyu']=shopinfo['shenyu'];
 	info[shopid]['money']=shopinfo['money'];
+        //产品分区
+	info[shopid]['area']=shopinfo['area'];
 	info['MoenyCount']='0.00';	
 	$.cookie('Cartlist',$.toJSON(info),{expires:7,path:'/'});
 	if(cook){

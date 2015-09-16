@@ -136,7 +136,7 @@ class cart extends base {
 	
 	//购物车商品列表
 	public function cartlist(){		
-		$Cartlist=json_decode(stripslashes($this->Cartlist),true);		
+		$Cartlist=json_decode(stripslashes($this->Cartlist),true);
 		$shopids='';	
 		if(is_array($Cartlist)){			
 			foreach($Cartlist as $key => $val){
@@ -153,21 +153,21 @@ class cart extends base {
 
 		$MoenyCount=0;
 		$Cartshopinfo='{';
-		if(count($shoplist)>=1){
-			foreach($Cartlist as $key => $val){
-					$key=intval($key);					
-					if(isset($shoplist[$key])){									
-						$shoplist[$key]['cart_gorenci']=$val['num'] ? $val['num'] : 1;						
-						$MoenyCount+=$shoplist[$key]['yunjiage']*$shoplist[$key]['cart_gorenci'];
-						$shoplist[$key]['cart_xiaoji']=substr(sprintf("%.3f",$shoplist[$key]['yunjiage']*$val['num']),0,-1);					
-						$shoplist[$key]['cart_shenyu']=$shoplist[$key]['zongrenshu']-$shoplist[$key]['canyurenshu'];
-						$Cartshopinfo.="'$key':{'shenyu':".$shoplist[$key]['cart_shenyu'].",'num':".$val['num'].",'money':".$shoplist[$key]['yunjiage']."},";
-					}
-			}
-		}
-		
-		
-		$MoenyCount=substr(sprintf("%.3f",$MoenyCount),0,-1);	
+		if (count($shoplist) >= 1) {
+                    foreach ($Cartlist as $key => $val) {
+                        $key = intval($key);
+                        if (isset($shoplist[$key])) {
+                            $shoplist[$key]['cart_gorenci'] = $val['num'] ? $val['num'] : 1;
+                            $MoenyCount+=$shoplist[$key]['yunjiage'] * $shoplist[$key]['cart_gorenci'];
+                            $shoplist[$key]['cart_xiaoji'] = substr(sprintf("%.3f", $shoplist[$key]['yunjiage'] * $val['num']), 0, -1);
+                            $shoplist[$key]['cart_shenyu'] = $shoplist[$key]['zongrenshu'] - $shoplist[$key]['canyurenshu'];
+                            $Cartshopinfo.="'$key':{'shenyu':" . $shoplist[$key]['cart_shenyu'] . ",'num':" . $val['num'] . ",'money':" . $shoplist[$key]['yunjiage'] . "},";
+                        }
+                    }
+        }
+
+
+        $MoenyCount=substr(sprintf("%.3f",$MoenyCount),0,-1);	
 		$Cartshopinfo.="'MoenyCount':$MoenyCount}";		
 		include templates("cart","cartlist");
 	}
