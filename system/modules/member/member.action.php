@@ -29,7 +29,7 @@ class member extends admin {
         $time = strtotime(date("Y-m-d"));
         $this->member_new_num = $this->db->GetNum("SELECT uid FROM `@#_member` where `time` > '$time'");
     }
-
+    
     /*
       显示会员
       根据第四个参数显示不同类型会员

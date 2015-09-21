@@ -93,9 +93,10 @@ class user extends base {
 		
 		if(isset($_POST['submit'])){			
 			$name=isset($_POST['name']) ? $_POST['name'] : "";
+//                        $type = isset($_POST['type'])? $_POST['type'] :0;
 			$userpassword=isset($_POST['userpassword']) ? $_POST['userpassword'] : "";
 			$userpassword2=isset($_POST['userpassword2']) ? $_POST['userpassword2'] : "";
-            $code=md5(strtoupper($_POST['verify']));
+                        $code=md5(strtoupper($_POST['verify']));
 			if($name==null or $userpassword==null or $userpassword2==null){
 				 _message("帐号密码不能为空",null,3);
 			}
@@ -109,9 +110,9 @@ class user extends base {
 			if($userpassword!=$userpassword2){
 				_message("两次密码不一致",null,3);
 			}
-            if($code!=_getcookie('checkcode')){
-                _message("验证码输入错误!");
-            }
+                        if($code!=_getcookie('checkcode')){
+                            _message("验证码输入错误!");
+                        }
 			
 			$regtype=null;
 			if(_checkmobile($name)){
@@ -128,7 +129,6 @@ class user extends base {
 					_message("系统邮箱配置不正确!");
 				}				
 			}		
-
 			//验证注册类型
 			$regtype_arr = System::load_app_config("user_reg_type","",ROUTE_M);	
 			$regtypes = 'reg_'.$regtype;	
@@ -168,7 +168,6 @@ class user extends base {
 			$decode = intval($decode);			
 			
 			//邮箱验证 -1 代表未验证， 1 验证成功 都不等代表等待验证
-			
 			if($register_type == 'def'){
 
 				$ip = _get_ip();
@@ -177,9 +176,8 @@ class user extends base {
 				if($member_reg_num >= $regconfig['reg_num']){
 					_message("您今日注册会员数已经达到上限！");
 				}
-			
 				$user_ip = _get_ip_dizhi();
-				$sql="INSERT INTO `@#_member`(password,user_ip,img,emailcode,mobilecode,reg_key,yaoqing,time)VALUES('$userpassword','$user_ip','photo/member.jpg','-1','-1','$name','$decode','$time')";
+				$sql="INSERT INTO `@#_member`(password,user_ip,img,emailcode,mobilecode,reg_key,yaoqing,time)VALUES($userpassword','$user_ip','photo/member.jpg','-1','-1','$name','$decode','$time')";
 				$sqlreg = $this->db->Query($sql);
 				$check_code  = serialize(array("name"=>$name,"time"=>$time));
 				$check_code  = _encrypt($check_code,"ENCODE",'',3600*24);			
