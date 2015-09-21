@@ -159,7 +159,7 @@
 		<ul class="click_img">
         	{wc:loop $paylist  $pay}
 			<li>
-            <input checked="checked" type="radio" value="{wc:$pay['pay_id']}" name="account" id="Tenpay">
+            <input type="radio" value="{wc:$pay['pay_id']}" name="account" id="Tenpay">
             <img style="border:1px solid #eee; padding:1px" height="35px" width="120px" src="{G_UPLOAD_PATH}/{wc:$pay['pay_thumb']}">
             </li>   
             {wc:loop:end}

@@ -167,7 +167,7 @@ class cart extends base {
         }
 
 
-        $MoenyCount=substr(sprintf("%.3f",$MoenyCount),0,-1);	
+                $MoenyCount=substr(sprintf("%.3f",$MoenyCount),0,-1);	
 		$Cartshopinfo.="'MoenyCount':$MoenyCount}";		
 		include templates("cart","cartlist");
 	}
@@ -285,10 +285,11 @@ class cart extends base {
 		*************/
 		
 		$Cartlist=json_decode(stripslashes($this->Cartlist),true);
-		
+
 		$pay=System::load_app_class('pay','pay');
+                print_r(ROUTE_M);
 		//$pay->scookie = json_decode(base64_decode($_POST['cookies']));
-			
+                exit();
 		$pay->fufen = $fufen;
 		$pay->pay_type_bank = $pay_type_bank;
 		$ok = $pay->init($uid,$pay_type_id,'go_record');	//云购商品	

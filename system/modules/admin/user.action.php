@@ -181,5 +181,10 @@ class user extends admin {
         _setcookie("ASHELL", '');
         _message("退出成功", G_MODULE_PATH . '/user/login');
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/origin/dev
 }
+
 ?>
